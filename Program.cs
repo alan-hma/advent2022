@@ -143,3 +143,29 @@
 
     Console.WriteLine($"Priority sum is {pSum}");
 }
+
+// Day 3, Problem 2
+// 
+{
+    var priorities = new int[0x7B];
+    var i = 0;
+    for (var letter = 'a'; letter < 0x7B; ++letter)
+    {
+        priorities[letter] = i + 1;
+        priorities[(char)(letter - 0x20)] = i++ + 27;
+    }
+
+    var lines = File.ReadLines("input/input03.txt").ToList();
+    var pSum = 0;
+
+    for (var j = 0; j < lines.Count();)
+    {
+        var ruck1 = new HashSet<char>(lines[j++].ToCharArray());
+        var ruck2 = new HashSet<char>(lines[j++].ToCharArray());
+        var ruck3 = new HashSet<char>(lines[j++].ToCharArray());
+
+        pSum += priorities[ruck1.Intersect(ruck2.Intersect(ruck3)).First()];
+    }
+
+    Console.WriteLine($"Priority sum is {pSum}");
+}
