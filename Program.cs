@@ -88,15 +88,16 @@
 }
 
 // Day 2, Problem 2
-//  Rock     "A X" L  Scissors 3 + 0 = 3
-//  Rock     "A Y" T  Rock     1 + 3 = 4
-//  Rock     "A Z" W  Paper    2 + 6 = 8
-//  Paper    "B X" L  Rock     1 + 0 = 1
-//  Paper    "B Y" T  Paper    2 + 3 = 5
-//  Paper    "B Z" W  Scissors 3 + 6 = 9
-//  Scissors "C X" L  Paper    2 + 0 = 2
-//  Scissors "C Y" T  Scissors 3 + 3 = 6
-//  Scissors "C Z" W  Rock     1 + 6 = 7
+//
+// Rock     "A X" L  Scissors 3 + 0 = 3
+// Rock     "A Y" T  Rock     1 + 3 = 4
+// Rock     "A Z" W  Paper    2 + 6 = 8
+// Paper    "B X" L  Rock     1 + 0 = 1
+// Paper    "B Y" T  Paper    2 + 3 = 5
+// Paper    "B Z" W  Scissors 3 + 6 = 9
+// Scissors "C X" L  Paper    2 + 0 = 2
+// Scissors "C Y" T  Scissors 3 + 3 = 6
+// Scissors "C Z" W  Rock     1 + 6 = 7
 {
     var score = 0;
     var d = new Dictionary<string, int>();
@@ -115,4 +116,30 @@
     foreach (var line in lines)
         score += d[line];
     Console.WriteLine($"Your score: {score}");
+}
+
+// Day 3, Problem 1
+//
+// 0x7B == the letter past z.
+// 
+{
+    var priorities = new int[0x7B];
+    var i = 0;
+    for (var letter = 'a'; letter < 0x7B; ++letter)
+    {
+        priorities[letter] = i + 1;
+        priorities[(char)(letter - 0x20)] = i++ + 27;
+    }
+
+    var lines = File.ReadLines("input/input03.txt");
+    var pSum = 0;
+    foreach (var line in lines)
+    {
+        var pivot = line.Count() / 2;
+        var first = new HashSet<char>(line.Substring(0, pivot).ToCharArray());
+        var second = new HashSet<char>(line.Substring(pivot).ToCharArray());
+        pSum += priorities[first.Intersect(second).First()];
+    }
+
+    Console.WriteLine($"Priority sum is {pSum}");
 }
