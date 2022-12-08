@@ -169,3 +169,41 @@
 
     Console.WriteLine($"Priority sum is {pSum}");
 }
+
+// Day 4, Problem 1
+//
+{
+    var lines = File.ReadLines("input/input04.txt").ToList();
+    var inclusives = 0;
+    foreach (var line in lines)
+    {
+        var firstSecond = line.Split(',');
+        var firstElf = firstSecond[0].Split('-');
+        var secondElf = firstSecond[1].Split('-');
+
+        if ((int.Parse(firstElf[0]) >= int.Parse(secondElf[0]) && int.Parse(firstElf[1]) <= int.Parse(secondElf[1])) ||
+            (int.Parse(secondElf[0]) >= int.Parse(firstElf[0]) && int.Parse(secondElf[1]) <= int.Parse(firstElf[1])))
+            ++inclusives;
+    }
+    Console.WriteLine($"{inclusives} pairs found where one pair overlaps the other completely");
+}
+
+// Day 4, Problem 2
+//
+{
+    var lines = File.ReadLines("input/input04.txt").ToList();
+    var inclusives = 0;
+    foreach (var line in lines)
+    {
+        var firstSecond = line.Split(',');
+        var firstElf = firstSecond[0].Split('-');
+        var secondElf = firstSecond[1].Split('-');
+
+        if ((int.Parse(firstElf[0]) >= int.Parse(secondElf[0]) && int.Parse(firstElf[0]) <= int.Parse(secondElf[1])) ||
+            (int.Parse(firstElf[1]) >= int.Parse(secondElf[0]) && int.Parse(firstElf[1]) <= int.Parse(secondElf[1])) ||
+            (int.Parse(secondElf[0]) >= int.Parse(firstElf[0]) && int.Parse(secondElf[0]) <= int.Parse(firstElf[1])) ||
+            (int.Parse(secondElf[1]) >= int.Parse(firstElf[0]) && int.Parse(secondElf[1]) <= int.Parse(firstElf[1])))
+            ++inclusives;
+    }
+    Console.WriteLine($"{inclusives} pairs found where one pair overlaps the other completely");
+}
