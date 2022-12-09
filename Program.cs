@@ -251,3 +251,45 @@ using System.Text;
 
     Console.WriteLine(sb);
 }
+
+// Day 5, Problem 2
+//
+{
+    var inputIndices = new int[] { 1, 5, 9, 13, 17, 21, 25, 29, 33 };
+    var stackArr = new Stack<char>[9];
+    var instructions = new List<(int, int, int)>();
+    var lines = File.ReadLines("input/input05.txt").ToList();
+
+    for (var i = 0; i < stackArr.Length; ++i)
+        stackArr[i] = new Stack<char>();
+
+    for (var i = 7; i >= 0; --i)
+    {
+        var charArr = lines[i].ToCharArray();
+        for (var j = 0; j < inputIndices.Length; ++j)
+        {
+            if (charArr[inputIndices[j]] != ' ')
+                stackArr[j].Push(charArr[inputIndices[j]]);
+        }
+    }
+
+    for (var i = 10; i < lines.Count(); ++i)
+    {
+        var tokens = lines[i].Split(' ');
+        var numCrates = int.Parse(tokens[1]);
+        var from = int.Parse(tokens[3]) - 1;
+        var to = int.Parse(tokens[5]) - 1;
+        var temp = new Stack<char>();
+
+        for (var j = 0; j < numCrates; ++j)
+            temp.Push(stackArr[from].Pop());
+        for (var j = 0; j < numCrates; ++j)
+            stackArr[to].Push(temp.Pop());
+    }
+
+    var sb = new StringBuilder();
+    for (var i = 0; i < stackArr.Length; ++i)
+        sb.Append(stackArr[i].Pop());
+
+    Console.WriteLine(sb);
+}
