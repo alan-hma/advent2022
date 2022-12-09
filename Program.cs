@@ -1,5 +1,6 @@
 ﻿// Day 1, Problem 1
 //
+using System.Text;
 {
     var lines = File.ReadLines("input/input01.txt");
     var currentCalories = 0;
@@ -206,4 +207,47 @@
             ++inclusives;
     }
     Console.WriteLine($"{inclusives} pairs found where one pair overlaps the other completely");
+}
+
+// Day 5, Problem 1
+//
+// [B] [N] [J] [S] [Z] [W] [F] [W] [R]
+// 01234567890123456789012345678901234
+//           1111111111222222222233333
+{
+    var inputIndices = new int[] { 1, 5, 9, 13, 17, 21, 25, 29, 33 };
+    var stackArr = new Stack<char>[9];
+    var instructions = new List<(int, int, int)>();
+    var lines = File.ReadLines("input/input05.txt").ToList();
+
+    for (var i = 0; i < stackArr.Length; ++i)
+        stackArr[i] = new Stack<char>();
+
+    for (var i = 7; i >= 0; --i)
+    {
+        var charArr = lines[i].ToCharArray();
+        for (var j = 0; j < inputIndices.Length; ++j)
+        {
+            if (charArr[inputIndices[j]] != ' ')
+                stackArr[j].Push(charArr[inputIndices[j]]);
+        }
+    }
+
+    for (var i = 10; i < lines.Count(); ++i)
+    {
+        var tokens = lines[i].Split(' ');
+        var numCrates = int.Parse(tokens[1]);
+        var from = int.Parse(tokens[3]) - 1;
+        var to = int.Parse(tokens[5]) - 1;
+
+        for (var j = 0; j < numCrates; ++j)
+            stackArr[to].Push(stackArr[from].Pop());
+
+    }
+
+    var sb = new StringBuilder();
+    for (var i = 0; i < stackArr.Length; ++i)
+        sb.Append(stackArr[i].Pop());
+
+    Console.WriteLine(sb);
 }
